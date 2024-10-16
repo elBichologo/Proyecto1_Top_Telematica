@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package client_proxy_comm;
+
+// Message for write requests
+message WriteRequest {
+    string log = 1;
+}
+
+// Message for read requests
+message ReadRequest {
+    uint64 id = 1;
+}
+
+// Message for confirmation responses
+message Confirmation {
+    enum Status {
+        OK = 0;
+        FAILED = 1;
+    }
+    Status status = 1;
+    string error = 2;
+}
+
+// Message for read responses
+message ReadResponse {
+    enum Status {
+        OK = 0;
+        FAILED = 1;
+    }
+    Status status = 1;
+    string data = 2;
+    string error = 3;
+}
+
+// Service definition
+service ClientProxyCommunication {
+    rpc WriteData (WriteRequest) returns (Confirmation);
+    rpc ReadData (ReadRequest) returns (ReadResponse);
+}
